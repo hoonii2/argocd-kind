@@ -50,7 +50,7 @@ datasources:
       - name: Tempo
         type: tempo
         uid: tempo
-        url: http://lgtm-tempo.monitoring:3100
+        url: http://lgtm-tempo.monitoring:3200
         access: proxy
         jsonData:
           httpMethod: GET
