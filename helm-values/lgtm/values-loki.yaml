@@ -45,9 +45,18 @@ singleBinary:
 
 gateway:
   enabled: true
+  replicas: 1
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 100m
+      memory: 128Mi
   service:
     type: ClusterIP
 
+# Disable distributed components
 read:
   replicas: 0
 write:
@@ -55,10 +64,27 @@ write:
 backend:
   replicas: 0
 
+# Disable memcached caches
+chunksCache:
+  enabled: false
+resultsCache:
+  enabled: false
+
+# Disable testing and monitoring features
 test:
   enabled: false
+lokiCanary:
+  enabled: false
 monitoring:
+  dashboards:
+    enabled: false
+  rules:
+    enabled: false
+  serviceMonitor:
+    enabled: false
   selfMonitoring:
     enabled: false
+    grafanaAgent:
+      installOperator: false
   lokiCanary:
     enabled: false

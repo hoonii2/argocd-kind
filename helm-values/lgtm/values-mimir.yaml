@@ -13,7 +13,8 @@ mimir:
       ingestion_burst_size: 40000
       compactor_blocks_retention_period: 720h
 
-mimir-monolithic:
+# Monolithic mode - single pod
+monolithic:
   replicas: 1
   resources:
     requests:
@@ -27,14 +28,60 @@ mimir-monolithic:
     size: 10Gi
     storageClass: standard
 
+# Disable all distributed components
+compactor:
+  replicas: 0
+distributor:
+  replicas: 0
+ingester:
+  replicas: 0
+  zoneAwareReplication:
+    enabled: false
+querier:
+  replicas: 0
+query_frontend:
+  replicas: 0
+query_scheduler:
+  replicas: 0
+store_gateway:
+  replicas: 0
+  zoneAwareReplication:
+    enabled: false
+overrides_exporter:
+  replicas: 0
+ruler:
+  replicas: 0
+alertmanager:
+  replicas: 0
+
+# Disable minio for monolithic mode (use filesystem)
+minio:
+  enabled: false
+
+# Disable rollout operator
+rollout_operator:
+  enabled: false
+
 nginx:
   enabled: true
+  replicas: 1
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 100m
+      memory: 128Mi
   service:
     type: ClusterIP
 
 enterprise:
   enabled: false
-alertmanager:
-  enabled: false
-ruler:
-  enabled: false
+
+metaMonitoring:
+  dashboards:
+    enabled: false
+  serviceMonitor:
+    enabled: false
+  prometheusRule:
+    enabled: false
