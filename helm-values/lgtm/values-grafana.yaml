@@ -10,6 +10,10 @@ resources:
     cpu: 500m
     memory: 512Mi
 
+# Disable init container that uses busybox
+initChownData:
+  enabled: false
+
 service:
   type: ClusterIP
 
@@ -25,7 +29,7 @@ datasources:
       - name: Mimir
         type: prometheus
         uid: mimir
-        url: http://mimir-nginx.monitoring:80/prometheus
+        url: http://lgtm-mimir-nginx.monitoring:80/prometheus
         access: proxy
         isDefault: true
         jsonData:
@@ -34,7 +38,7 @@ datasources:
       - name: Loki
         type: loki
         uid: loki
-        url: http://loki-gateway.monitoring:80
+        url: http://lgtm-loki-gateway.monitoring:80
         access: proxy
         jsonData:
           maxLines: 1000
@@ -46,7 +50,7 @@ datasources:
       - name: Tempo
         type: tempo
         uid: tempo
-        url: http://tempo.monitoring:3100
+        url: http://lgtm-tempo.monitoring:3100
         access: proxy
         jsonData:
           httpMethod: GET
