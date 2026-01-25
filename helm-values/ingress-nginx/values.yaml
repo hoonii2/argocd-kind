@@ -1,15 +1,23 @@
 controller:
-  # Kind 환경용 설정
+  # Kind 환경용 설정 - hostPort로 localhost:80 직접 접근
   hostNetwork: false
   hostPort:
-    enabled: false
+    enabled: true
+    ports:
+      http: 80
+      https: 443
 
-  # NodePort로 노출
+  # Kind에서는 control-plane 노드에 배포
+  nodeSelector:
+    ingress-ready: "true"
+  tolerations:
+    - key: "node-role.kubernetes.io/control-plane"
+      operator: "Equal"
+      effect: "NoSchedule"
+
+  # Service 타입 (hostPort 사용하므로 NodePort도 유지)
   service:
     type: NodePort
-    nodePorts:
-      http: 30080
-      https: 30443
 
   # 리소스 제한 (Kind 환경)
   resources:
