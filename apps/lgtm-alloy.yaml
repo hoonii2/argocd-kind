@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: lgtm-promtail
+  name: lgtm-alloy
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -9,11 +9,11 @@ spec:
   project: default
   sources:
     - repoURL: https://grafana.github.io/helm-charts
-      chart: promtail
-      targetRevision: 6.*
+      chart: alloy
+      targetRevision: 1.*
       helm:
         valueFiles:
-          - $values/helm-values/lgtm/values-promtail.yaml
+          - $values/helm-values/lgtm/values-alloy.yaml
     - repoURL: https://github.com/hoonii2/argocd-kind.git
       targetRevision: main
       ref: values
