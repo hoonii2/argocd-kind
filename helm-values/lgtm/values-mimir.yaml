@@ -1,52 +1,100 @@
-deploymentMode: monolithic
-
+# Minimal distributed mode for Kind cluster
 mimir:
   structuredConfig:
-    common:
-      storage:
-        backend: filesystem
-        filesystem:
-          dir: /data/mimir
     limits:
       max_global_series_per_user: 150000
       ingestion_rate: 20000
       ingestion_burst_size: 40000
       compactor_blocks_retention_period: 720h
 
-# Monolithic mode - single pod
-monolithic:
+# Minimal replicas for each component
+distributor:
   replicas: 1
   resources:
     requests:
-      cpu: 200m
-      memory: 512Mi
+      cpu: 50m
+      memory: 128Mi
     limits:
-      cpu: 1000m
-      memory: 1Gi
-  persistence:
+      cpu: 200m
+      memory: 256Mi
+
+ingester:
+  replicas: 1
+  zoneAwareReplication:
+    enabled: false
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+  persistentVolume:
     enabled: true
-    size: 10Gi
+    size: 5Gi
     storageClass: standard
 
-# Disable all distributed components
-compactor:
-  replicas: 0
-distributor:
-  replicas: 0
-ingester:
-  replicas: 0
-  zoneAwareReplication:
-    enabled: false
 querier:
-  replicas: 0
+  replicas: 1
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
+
 query_frontend:
-  replicas: 0
+  replicas: 1
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
+
 query_scheduler:
-  replicas: 0
+  replicas: 1
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 100m
+      memory: 128Mi
+
 store_gateway:
-  replicas: 0
+  replicas: 1
   zoneAwareReplication:
     enabled: false
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
+  persistentVolume:
+    enabled: true
+    size: 5Gi
+    storageClass: standard
+
+compactor:
+  replicas: 1
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
+  persistentVolume:
+    enabled: true
+    size: 5Gi
+    storageClass: standard
+
+# Disable optional components
 overrides_exporter:
   replicas: 0
 ruler:
@@ -54,11 +102,21 @@ ruler:
 alertmanager:
   replicas: 0
 
-# Disable minio for monolithic mode (use filesystem)
+# Enable minio for object storage
 minio:
-  enabled: false
+  enabled: true
+  replicas: 1
+  persistence:
+    size: 10Gi
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
 
-# Disable rollout operator
+# Disable rollout operator (not needed for single replicas)
 rollout_operator:
   enabled: false
 
