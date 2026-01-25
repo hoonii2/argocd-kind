@@ -1,0 +1,22 @@
+config:
+  clients:
+    - url: http://loki-gateway.monitoring:80/loki/api/v1/push
+  snippets:
+    pipelineStages:
+      - cri: {}
+      - multiline:
+          firstline: '^\d{4}-\d{2}-\d{2}|\[|{'
+          max_wait_time: 3s
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 64Mi
+  limits:
+    cpu: 200m
+    memory: 128Mi
+
+tolerations:
+  - key: node-role.kubernetes.io/control-plane
+    operator: Exists
+    effect: NoSchedule

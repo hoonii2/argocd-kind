@@ -1,0 +1,75 @@
+replicas: 1
+adminUser: admin
+adminPassword: admin123
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+service:
+  type: ClusterIP
+
+persistence:
+  enabled: true
+  size: 2Gi
+  storageClass: standard
+
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+      - name: Mimir
+        type: prometheus
+        uid: mimir
+        url: http://mimir-nginx.monitoring:80/prometheus
+        access: proxy
+        isDefault: true
+        jsonData:
+          httpMethod: POST
+          prometheusType: Mimir
+      - name: Loki
+        type: loki
+        uid: loki
+        url: http://loki-gateway.monitoring:80
+        access: proxy
+        jsonData:
+          maxLines: 1000
+          derivedFields:
+            - datasourceUid: tempo
+              matcherRegex: '"traceId":"([^"]+)"'
+              name: TraceID
+              url: '$${__value.raw}'
+      - name: Tempo
+        type: tempo
+        uid: tempo
+        url: http://tempo.monitoring:3100
+        access: proxy
+        jsonData:
+          httpMethod: GET
+          tracesToLogsV2:
+            datasourceUid: loki
+            spanStartTimeShift: '-1h'
+            spanEndTimeShift: '1h'
+            filterByTraceID: true
+          tracesToMetrics:
+            datasourceUid: mimir
+          serviceMap:
+            datasourceUid: mimir
+          nodeGraph:
+            enabled: true
+
+grafana.ini:
+  server:
+    root_url: "%(protocol)s://%(domain)s:%(http_port)s/"
+  analytics:
+    reporting_enabled: false
+  security:
+    allow_embedding: true
+  users:
+    allow_sign_up: false
+  feature_toggles:
+    enable: tempoSearch tempoBackendSearch tempoServiceGraph traceToMetrics

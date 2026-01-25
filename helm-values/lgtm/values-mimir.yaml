@@ -1,0 +1,40 @@
+deploymentMode: monolithic
+
+mimir:
+  structuredConfig:
+    common:
+      storage:
+        backend: filesystem
+        filesystem:
+          dir: /data/mimir
+    limits:
+      max_global_series_per_user: 150000
+      ingestion_rate: 20000
+      ingestion_burst_size: 40000
+      compactor_blocks_retention_period: 720h
+
+mimir-monolithic:
+  replicas: 1
+  resources:
+    requests:
+      cpu: 200m
+      memory: 512Mi
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+  persistence:
+    enabled: true
+    size: 10Gi
+    storageClass: standard
+
+nginx:
+  enabled: true
+  service:
+    type: ClusterIP
+
+enterprise:
+  enabled: false
+alertmanager:
+  enabled: false
+ruler:
+  enabled: false
