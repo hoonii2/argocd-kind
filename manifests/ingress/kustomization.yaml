@@ -5,3 +5,4 @@ resources:
   - argocd-ingress.yaml
   - grafana-ingress.yaml
   - jenkins-ingress.yaml
+  - loki-ingress.yaml
