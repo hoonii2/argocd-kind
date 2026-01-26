@@ -13,6 +13,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: loki-server
+                name: lgtm-loki
                 port:
                   number: 3100
