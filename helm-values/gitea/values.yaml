@@ -10,8 +10,27 @@ gitea:
       DOMAIN: gitea.local
       SSH_DOMAIN: localhost
       SSH_PORT: 32222
+    database:
+      DB_TYPE: sqlite3
+    session:
+      PROVIDER: memory
+    cache:
+      ADAPTER: memory
+    queue:
+      TYPE: level
 
 service:
   ssh:
     type: NodePort
     nodePort: 32222
+
+# 외부 DB 비활성화 - 내장 SQLite 사용
+postgresql:
+  enabled: false
+
+postgresql-ha:
+  enabled: false
+
+# 외부 Redis 비활성화 - 내장 메모리 사용
+redis-cluster:
+  enabled: false
