@@ -6,3 +6,4 @@ resources:
   - grafana-ingress.yaml
   - jenkins-ingress.yaml
   - loki-ingress.yaml
+  - gitea-ingress.yaml

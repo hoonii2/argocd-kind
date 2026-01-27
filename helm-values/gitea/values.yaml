@@ -1,0 +1,17 @@
+gitea:
+  admin:
+    username: admin
+    password: admin
+    email: admin@local.dev
+
+  config:
+    server:
+      ROOT_URL: http://gitea.local
+      DOMAIN: gitea.local
+      SSH_DOMAIN: localhost
+      SSH_PORT: 32222
+
+service:
+  ssh:
+    type: NodePort
+    nodePort: 32222
