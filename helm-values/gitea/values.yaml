@@ -1,6 +1,6 @@
 gitea:
   admin:
-    username: admin
+    username: gitea-admin
     password: admin
     email: admin@local.dev
 
