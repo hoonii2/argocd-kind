@@ -8,9 +8,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: http://gitea-http.gitea.svc.cluster.local:3000/gitea-admin/todomaster.git
+    repoURL: https://github.com/hoonii2/argocd-kind.git
     targetRevision: main
-    path: k8s
+    path: manifests/todomaster
   destination:
     server: https://kubernetes.default.svc
     namespace: todomaster

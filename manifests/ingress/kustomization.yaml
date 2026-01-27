@@ -7,3 +7,4 @@ resources:
   - jenkins-ingress.yaml
   - loki-ingress.yaml
   - gitea-ingress.yaml
+  - todomaster-ingress.yaml
