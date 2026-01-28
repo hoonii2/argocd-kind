@@ -18,8 +18,8 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: hoonii2/todomaster-frontend:latest
-          imagePullPolicy: IfNotPresent
+          image: todomaster-frontend:latest
+          imagePullPolicy: Never
           ports:
             - containerPort: 80
           resources:
