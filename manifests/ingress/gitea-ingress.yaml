@@ -8,7 +8,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: gitea.local
+    - host: gitea.internal
       http:
         paths:
           - path: /

@@ -6,7 +6,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: loki.local
+    - host: loki.internal
       http:
         paths:
           - path: /

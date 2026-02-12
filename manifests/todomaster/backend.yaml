@@ -25,10 +25,10 @@ metadata:
 data:
   NODE_ENV: "production"
   PORT: "3000"
-  FRONTEND_URL: "http://todomaster.local"
-  KAKAO_CALLBACK_URL: "http://todomaster.local/api/auth/kakao/callback"
-  GOOGLE_CALLBACK_URL: "http://todomaster.local/api/auth/google/callback"
-  GITHUB_CALLBACK_URL: "http://todomaster.local/api/auth/github/callback"
+  FRONTEND_URL: "http://todomaster.internal"
+  KAKAO_CALLBACK_URL: "http://todomaster.internal/api/auth/kakao/callback"
+  GOOGLE_CALLBACK_URL: "http://todomaster.internal/api/auth/google/callback"
+  GITHUB_CALLBACK_URL: "http://todomaster.internal/api/auth/github/callback"
 
 ---
 apiVersion: apps/v1

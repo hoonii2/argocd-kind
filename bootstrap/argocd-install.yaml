@@ -1,6 +1,6 @@
 # ArgoCD Helm values
 global:
-  domain: argocd.local
+  domain: argocd.internal
 
 configs:
   params:

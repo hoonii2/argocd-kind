@@ -6,8 +6,8 @@ gitea:
 
   config:
     server:
-      ROOT_URL: http://gitea.local
-      DOMAIN: gitea.local
+      ROOT_URL: http://gitea.internal
+      DOMAIN: gitea.internal
       SSH_DOMAIN: localhost
       SSH_PORT: 32222
     database:
