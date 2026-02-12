@@ -1,6 +1,9 @@
 # Minimal distributed mode for Kind cluster
 mimir:
   structuredConfig:
+    ingester:
+      ring:
+        replication_factor: 1
     limits:
       max_global_series_per_user: 150000
       ingestion_rate: 20000
